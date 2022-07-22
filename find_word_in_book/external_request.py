@@ -11,7 +11,7 @@ def abort_if_response_not_ok(response:requests.Response):
         raise ValueError("invalid response")
 
 
-def get_book_text(url:str, encoding:str):
+def get_book_text(url:str, encoding:str) -> str:
     response = get_request(url)
     abort_if_response_not_ok(response)
     response.encoding = encoding

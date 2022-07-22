@@ -9,7 +9,7 @@ def tokenize_sentence(sentence:str) -> List[str]:
     return sentence.split()
 
 
-def remove_punctuation(s:str):
+def remove_punctuation(s:str) -> str:
     punctuation:str  = string.punctuation + '”“'
     return s.translate(str.maketrans('',  '', punctuation))
 
