@@ -1,5 +1,5 @@
 import main
-import string_operations.splitter, string_operations.clean_string
+import tokenization.splitter, tokenization.clean_string
 from typing import List
 
 
@@ -21,14 +21,14 @@ class Tests:
                     "fox jumps over\n\r" \
                     "\r\nthe lazy dog\n\r"
         expected: List[str] = ['The quick brown', 'fox jumps over', '', '', 'the lazy dog', '']
-        actual = string_operations.splitter.split_lines(text)
+        actual = tokenization.splitter.split_lines(text)
         assert actual == expected
     
     def test_remove_punctuation(self):
         text: str = "The quick brown." \
                     "~!fox, jumps over?" \
                     ",the; ”lazy” dog"
-        actual = string_operations.clean_string.remove_punctuation(text)
+        actual = tokenization.clean_string.remove_punctuation(text)
         expected = "The quick brown" \
                     "fox jumps over" \
                     "the lazy dog"
@@ -38,7 +38,7 @@ class Tests:
         text: str = "The quick   brown" \
                     "fox   jumps  over " \
                     "the  lazy   dog"
-        actual = string_operations.clean_string.remove_multiple_spaces(text)
+        actual = tokenization.clean_string.remove_multiple_spaces(text)
         expected = "The quick brown" \
                     "fox jumps over " \
                     "the lazy dog"
@@ -48,7 +48,7 @@ class Tests:
         text: str = "the quick brown " \
                     "fox jumps over " \
                     "the lazy dog"
-        actual = string_operations.clean_string.remove_stopwords(text)
+        actual = tokenization.clean_string.remove_stopwords(text)
         expected = "quick brown " \
                     "fox jumps " \
                     "lazy dog"

@@ -10,7 +10,6 @@ def tokenize_sentence(sentence:str) -> str:
     sentence = remove_punctuation(sentence)
     sentence = remove_multiple_spaces(sentence)
     sentence = sentence.strip()
-    # sentence = remove_stopwords(sentence)
     return sentence
 
 
@@ -23,8 +22,4 @@ def remove_multiple_spaces(s:str):
     regex = "\s\s+"
     return re.sub(regex, " ", s)
 
-
-def remove_stopwords(s:str):
-    stopwords = STOPWORDS.words('english')
-    return " ".join([word for word in s.split() if word not in (stopwords)])
 
