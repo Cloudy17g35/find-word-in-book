@@ -1,29 +1,27 @@
 BOOK_URL = 'https://www.gutenberg.org/files/2701/2701-0.txt'
 ENCODING = 'utf-8'
-WORD = 'doctor'
-import requests
+WORD = 'mouse'
 from typing import List
-import tokenization.splitter, tokenization.clean_string
+import find_word_in_book.tokenization as tokenization
+import find_word_in_book.external_request as external_request
 
 
-def get_request(url: str):
-    response:requests.Response = requests.get(url)
-    return response
+def get_word_count_and_lines_where_word_occured(lines:List[str], 
+                                                word:str):
+        
+        word_count:int = 0
+        lines_where_word_occured:List[str] = []
+        
+        for sentence in lines:
+            if not sentence:
+                continue
+            tokenized_sentence:str = tokenization.tokenize_sentence(sentence)
+            cur_count:int = tokenization.count_word_occurences_in_tokenized_sentence(tokenized_sentence, word)
+            word_count += cur_count
+            if tokenization.check_if_word_in_tokenized_sentence(tokenized_sentence, word):
+                lines_where_word_occured.append(sentence)
+        return word_count, lines_where_word_occured
 
-
-def abort_if_response_not_ok(response:requests.Response):
-
-    if not response.ok:
-        raise ValueError("invalid response")
-
-
-
-def count_word_occurences_in_sentence(sentence:str, word:str) -> int:
-    return sentence.split().count(word)
-
-
-def check_if_word_in_sentence(sentence:str, word:str) -> bool:
-    return word in set(sentence.split())
 
 
 api_response = {
@@ -33,29 +31,12 @@ api_response = {
 
 
 def main():
-    response = get_request(BOOK_URL)
-    abort_if_response_not_ok(response)
-    response.encoding = ENCODING
-    
-    text:str = response.text
-    
-    all_lines:List[str] = tokenization.splitter.split_lines(text)
-    word_count:int = 0
-    lines_where_word_occured:List[str] = []
-    
-    for sentence in all_lines:
-        if not sentence:
-            continue
-        tokenized_sentence:str = tokenization.clean_string.tokenize_sentence(sentence)
-        cur_count:int = count_word_occurences_in_sentence(tokenized_sentence, WORD)
-        word_count += cur_count
-        if check_if_word_in_sentence(tokenized_sentence, WORD):
-            lines_where_word_occured.append(sentence)
-        
+    text:str = external_request.get_book_text(BOOK_URL, ENCODING)
+    all_lines:List[str] = text.splitlines()
+    word_count, lines_where_word_occured = get_word_count_and_lines_where_word_occured(all_lines, WORD)
     api_response["occurences"] = word_count
     api_response["lines"] = lines_where_word_occured
-    print(api_response)
-
+    
 
 if __name__ == "__main__":
     main()
