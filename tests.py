@@ -1,4 +1,4 @@
-import main
+import server
 import find_word_in_book.tokenization as tokenization
 import find_word_in_book.external_request as external_request
 import find_word_in_book.controllers as controllers
@@ -8,19 +8,19 @@ from typing import List
 class Tests:
     
     def test_if_resp_ok(self):
-        resp = external_request.get_request(main.BOOK_URL)
+        resp = external_request.get_request(server.BOOK_URL)
         expected_status_code = 200
         assert resp.status_code == expected_status_code
     
     def test_if_resp_ok(self):
-        text:str= external_request.get_book_text(main.BOOK_URL, main.ENCODING)
+        text:str= external_request.get_book_text(server.BOOK_URL, server.ENCODING)
         assert isinstance(text, str)
     
     def test_change_encoding_in_response(self):
-        resp = external_request.get_request(main.BOOK_URL)
+        resp = external_request.get_request(server.BOOK_URL)
         assert resp.encoding == "ISO-8859-1"
-        resp.encoding = main.ENCODING
-        assert resp.encoding == main.ENCODING
+        resp.encoding = server.ENCODING
+        assert resp.encoding == server.ENCODING
     
     def test_splitlines(self):
         text: str = "The quick brown\n" \

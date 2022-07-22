@@ -1,9 +1,14 @@
+from multiprocessing.sharedctypes import Value
 import requests
 
 
 def get_request(url: str):
-    response:requests.Response = requests.get(url)
-    return response
+    try:
+        response:requests.Response = requests.get(url)
+        return response
+    except requests.exceptions.Timeout:
+        # change to custom error
+        raise ValueError()
 
 
 def abort_if_response_not_ok(response:requests.Response):
