@@ -12,5 +12,5 @@ for word = bar
 should return:
  {
 	"occurences": 2,
-	"lines": [1, 4]
+	"lines": ["foo bar", "bar foo"]
 }
