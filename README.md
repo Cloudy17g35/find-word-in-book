@@ -1,5 +1,17 @@
 # Simple REST API.
 
+### In order to run the code using Docker:
+
+```
+docker build -t find-word-in-book .
+```
+
+```
+docker run -p 80:80 find-word-in-book
+```
+
+api will work on http://0.0.0.0/books
+
 Performs GET operation books/?book_name={book_name}&word={word}
 
 API makes call to site gutenberg.org and takes
@@ -17,7 +29,7 @@ API looks for a requested word in whole book text (word length must be at least 
 
 returns number of word occurences in the book and the lines where word occured
 
-Exaple calls and results:
+### Exaple calls and results:
 
 **book_name:** moby dick
 
@@ -87,16 +99,3 @@ result:
     ]
 }
 ```
-
-
-In order to run the code using Docker:
-
-```
-docker build -t find-word-in-book .
-```
-
-```
-docker run -p 80:80 find-word-in-book
-```
-
-api will work on http://0.0.0.0/books
