@@ -1,26 +1,29 @@
-import server
+import pytest
 import find_word_in_book.tokenization as tokenization
 import find_word_in_book.external_request as external_request
 import find_word_in_book.controllers as controllers
-from typing import List
-
+import find_word_in_book.validators as validators
+from typing import List, Dict
+from pydantic import ValidationError
+TEST_URL = 'http://www.gutenberg.org/files/2701/2701-0.txt'
+ENCODING = 'utf-8'
 
 class Tests:
     
     def test_if_resp_ok(self):
-        resp = external_request.get_request(server.BOOK_URL)
+        resp = external_request.get_request(TEST_URL, ENCODING)
         expected_status_code = 200
         assert resp.status_code == expected_status_code
     
     def test_if_resp_ok(self):
-        text:str= external_request.get_book_text(server.BOOK_URL, server.ENCODING)
+        text:str= external_request.get_book_text(TEST_URL, ENCODING)
         assert isinstance(text, str)
     
     def test_change_encoding_in_response(self):
-        resp = external_request.get_request(server.BOOK_URL)
+        resp = external_request.get_request(TEST_URL)
         assert resp.encoding == "ISO-8859-1"
-        resp.encoding = server.ENCODING
-        assert resp.encoding == server.ENCODING
+        resp.encoding = ENCODING
+        assert resp.encoding == ENCODING
     
     def test_splitlines(self):
         text: str = "The quick brown\n" \
@@ -49,14 +52,28 @@ class Tests:
                     'jumps', 'over', 'the', 'lazy', 'dog']
         assert actual == expected
     
-    def test_get_get_word_count_and_lines_where_word_occured(self):
-        lines: str = ['the quick brown',
-                    'fox jumps over',
-                    'the lazy dog']
+    
+    def test_validator_invalid_book(self):
+        test_data:Dict[str, str] = {"book_name": "foo",
+                                    "word": "hello"}
+        with pytest.raises(Exception) as e:
+            validators.GetBookAndWordRequest(**test_data)
         
-        word: str = 'the'
-        word_count, lines_where_word_occured = controllers.get_word_count_and_lines_where_word_occured(lines, word)
-        expected_word_count, expected_lines_where_word_occured = 2, ['the quick brown', 'the lazy dog']
-        assert (word_count, lines_where_word_occured) == (expected_word_count , expected_lines_where_word_occured)
+        assert e.type == ValidationError
+    
+    def test_validator_invalid_word_length(self):
+        test_data:Dict[str, str] = {"book_name": "idiot",
+                            "word": "k"}
+        with pytest.raises(Exception) as e:
+            validators.GetBookAndWordRequest(**test_data)
+    
+        assert e.type == ValidationError
 
-        
+    def test_validator_word_in_stopwords(self):
+        test_data:Dict[str, str] = {"book_name": "idiot",
+                            "word": "i"}
+        with pytest.raises(Exception) as e:
+            validators.GetBookAndWordRequest(**test_data)
+    
+        assert e.type == ValidationError
+    
