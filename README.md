@@ -1,6 +1,6 @@
 Simple REST API.
 
-Performs GET operation http://0.0.0.0/books/?book_name={book_name}&word={word}
+Performs GET operation books/?book_name={book_name}&word={word}
 
 API makes call to site gutenberg.org and takes
 book text (possible books are in location: find_word_in_book/config.json)
@@ -21,7 +21,7 @@ Exaple calls and results:
 
 book: moby dick
 word: mouse
-http://0.0.0.0/books/?book_name=moby%20dick&word=mouse
+books/?book_name=moby%20dick&word=mouse
 
 result:
 '''
