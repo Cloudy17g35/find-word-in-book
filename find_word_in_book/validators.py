@@ -12,11 +12,11 @@ class GetBookAndWordRequest(BaseModel):
     def book_name_must_be_valid(cls, book_name):
         possible_books: List[str] = list(book_mapper.get_possible_books().keys())
         
-        if book_name.lower() not in possible_books:
+        if book_name.lower().strip() not in possible_books:
             message: str = f'{book_name} is not in possible_books: '\
                            f"{', '.join(possible_books)}"
             raise ValueError(message)
-        return book_name.lower()
+        return book_name.lower().strip()
 
 
     @validator('word')
@@ -27,4 +27,4 @@ class GetBookAndWordRequest(BaseModel):
                       f"list of stopwords: {', '.join(stopwords)}"
         if len(word) < 2 or word.lower() in stopwords:
             raise ValueError(message)
-        return word.lower()
+        return word.lower().strip()

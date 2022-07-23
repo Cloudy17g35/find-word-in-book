@@ -1,6 +1,7 @@
 import requests
 
 
+
 def get_request(url: str):
     try:
         response:requests.Response = requests.get(url)

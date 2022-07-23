@@ -1,5 +1,5 @@
 import find_word_in_book.tokenization as tokenization
-import find_word_in_book.external_request as external_request
+import find_word_in_book.external_requests as external_requests
 import find_word_in_book.responses as responses
 import find_word_in_book.book_mapper as book_mapper
 import find_word_in_book.validators as validators
@@ -21,7 +21,8 @@ def get_word_count_and_lines_where_word_occured(
         raise HTTPException(status_code=400, 
                             detail=e.errors())
     url:str = book_mapper.map_book_name_to_url(user_request.book_name)
-    text:str = external_request.get_book_text(url, ENCODING)
+    text:str = external_requests.get_book_text(url, 
+                                               ENCODING)
     all_sentences: List[str] = text.splitlines()
     word_count:int = 0
     lines_where_word_occured: List[str] = []
@@ -30,10 +31,13 @@ def get_word_count_and_lines_where_word_occured(
         if not sentence:
             continue
         tokenized_sentence:str = tokenization.tokenize_sentence(sentence)
-        cur_count:int = tokenization.count_word_occurences_in_tokenized_sentence(tokenized_sentence, word)
+        cur_count:int = tokenization.count_word_occurences_in_tokenized_sentence(tokenized_sentence,
+                                                                                 user_request.word)
         word_count += cur_count
-        if tokenization.check_if_word_in_tokenized_sentence(tokenized_sentence, word):
+        if tokenization.check_if_word_in_tokenized_sentence(tokenized_sentence,
+                                                            user_request.word):
             lines_where_word_occured.append(sentence)
-    response:Dict[str, str] = responses.valid_response(word_count, lines_where_word_occured)
+    response:Dict[str, str] = responses.valid_response(word_count, 
+                                                       lines_where_word_occured)
     return response
         

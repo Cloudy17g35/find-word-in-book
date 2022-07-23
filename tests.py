@@ -1,6 +1,6 @@
 import pytest
 import find_word_in_book.tokenization as tokenization
-import find_word_in_book.external_request as external_request
+import find_word_in_book.external_requests as external_requests
 import find_word_in_book.controllers as controllers
 import find_word_in_book.validators as validators
 from typing import List, Dict
@@ -11,16 +11,16 @@ ENCODING = 'utf-8'
 class Tests:
     
     def test_if_resp_ok(self):
-        resp = external_request.get_request(TEST_URL, ENCODING)
+        resp = external_requests.get_request(TEST_URL, ENCODING)
         expected_status_code = 200
         assert resp.status_code == expected_status_code
     
     def test_if_resp_ok(self):
-        text:str= external_request.get_book_text(TEST_URL, ENCODING)
+        text:str= external_requests.get_book_text(TEST_URL, ENCODING)
         assert isinstance(text, str)
     
     def test_change_encoding_in_response(self):
-        resp = external_request.get_request(TEST_URL)
+        resp = external_requests.get_request(TEST_URL)
         assert resp.encoding == "ISO-8859-1"
         resp.encoding = ENCODING
         assert resp.encoding == ENCODING
