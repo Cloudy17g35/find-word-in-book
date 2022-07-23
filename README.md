@@ -21,7 +21,10 @@ Exaple calls and results:
 
 book: moby dick
 word: mouse
+
+```
 books/?book_name=moby%20dick&word=mouse
+```
 
 result:
 ```
