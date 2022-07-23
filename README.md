@@ -31,6 +31,14 @@ result:
 {"occurences":3,"lines":["locked; and not a mouse to be heard; and it’s been just so silent ever","the wondrous whale was but a species of magnified mouse, or at least","now shook the slight cedar as a mildly cruel cat her mouse. With"]}
 ```
 
+In order to run the code using Docker:
 
+```
+docker build -t find-word-in-book .
+```
 
+```
+docker run -p 80:80 find-word-in-book
+```
 
+api will work on http://0.0.0.0/books
