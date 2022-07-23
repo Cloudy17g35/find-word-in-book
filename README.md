@@ -1,4 +1,4 @@
-Simple REST API.
+# Simple REST API.
 
 Performs GET operation books/?book_name={book_name}&word={word}
 
