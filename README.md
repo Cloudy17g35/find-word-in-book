@@ -6,7 +6,7 @@ API makes call to site gutenberg.org and takes
 book text (possible books are in location: find_word_in_book/config.json)
 
 
-For now possible books are:
+for now possible books are:
 
 * Moby Dick (Herman Melville)
 * Idiot (Fyodor Dostoevsky)
@@ -19,8 +19,9 @@ returns number of word occurences in the book and the lines where word occured
 
 Exaple calls and results:
 
-book: moby dick
-word: mouse
+**book_name:** moby dick
+
+**word:** mouse
 
 ```
 books/?book_name=moby%20dick&word=mouse
