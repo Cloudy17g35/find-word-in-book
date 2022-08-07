@@ -12,8 +12,10 @@ docker run -p 80:80 find-word-in-book
 
 api will work on http://0.0.0.0/books
 
-Performs GET operation books/?book_name={book_name}&word={word}
-
+Performs GET operation 
+```
+books/?book_name={book_name}&word={word}
+```
 API makes call to site gutenberg.org and takes
 book text (possible books are in location: find_word_in_book/config.json)
 
