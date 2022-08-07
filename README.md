@@ -1,4 +1,4 @@
-# Simple REST API.
+# Simple REST API made with FastAPI
 
 ### In order to run the code using Docker:
 
