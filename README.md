@@ -1,6 +1,6 @@
 # Simple REST API made with FastAPI
 
-### In order to run the code using Docker:
+### run using Docker:
 
 ```
 docker build -t find-word-in-book .
